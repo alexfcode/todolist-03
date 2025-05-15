@@ -17,45 +17,28 @@ export const TodolistItem = ({
   changeFilter,
   addTask,
 }: Props) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // через useState:
-  // const [inputRef, setinputRef] = useState("");
+  const [inputRef, setinputRef] = useState("");
 
   return (
     <div>
       <h3>{title}</h3>
       <div>
         <input
-          // Через useRef:
-          ref={inputRef}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && inputRef.current) {
-              addTask(inputRef.current.value);
-              inputRef.current.value = "";
+          value={inputRef}
+          onChange={(event) => setinputRef(event.currentTarget.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              addTask(inputRef);
+              setinputRef("");
             }
           }}
-
-          //через useState:
-          //value={inputRef}
-          // onChange={(e) => setinputRef(e.currentTarget.value)}
         />
-
-        {/* Через useRef: */}
         <Button
           title={"+"}
           onClick={() => {
-            if (inputRef.current) {
-              addTask(inputRef.current.value);
-              inputRef.current.value = "";
-            }
+            addTask(inputRef);
+            setinputRef("");
           }}
-
-          //через useState:
-          // onClick={() => {
-          //   addTask(inputRef);
-          //   setinputRef("");
-          // }}
         />
       </div>
       {tasks.length === 0 ? (
